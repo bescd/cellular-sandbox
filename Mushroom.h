@@ -7,7 +7,7 @@
 #define MUSHROOM_H
 
 #include <SFML/Graphics.hpp>
-#include "bloc.h"
+#include "Bloc.h"
 
 class Mushroom : public Bloc {
 	// Temps avant que le champignon ne se propage
