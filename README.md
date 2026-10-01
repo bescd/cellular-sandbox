@@ -5,10 +5,6 @@ des matériaux sur une grille et on regarde les règles s'appliquer : le sable
 tombe et s'empile, l'eau s'écoule et se nivelle, le champignon colonise la
 pierre, et des poissons apparaissent dans les étendues d'eau assez grandes.
 
-Ce n'est pas un clone de Minecraft, malgré le nom que le dépôt portait avant
-(`Minecraft2`) : pas de 3D, pas de joueur, pas de bloc à miner. C'est une
-simulation, et le seul geste du joueur est le pinceau.
-
 ## Diagramme de classes
 
 ```mermaid
@@ -96,7 +92,7 @@ classDiagram
 ## Le modèle objet
 
 `Bloc` est une **classe abstraite** : elle porte l'état commun à toute cellule
-— position, couleur, type — et déclare une **méthode virtuelle pure**,
+- position, couleur, type - et déclare une **méthode virtuelle pure**,
 `update(Map*)`, que chaque matériau implémente à sa façon. `Sand`, `Stone`,
 `Water` et `Mushroom` en **héritent** et ne redéfinissent que cette règle.
 
@@ -104,7 +100,7 @@ C'est ce qui donne au moteur sa forme : `Map` ne manipule que des `Bloc*` et
 appelle `update()` dessus sans jamais savoir à quel matériau elle a affaire. La
 **liaison dynamique** choisit la bonne implémentation à l'exécution. Ajouter un
 matériau, c'est ajouter une classe dérivée et une entrée dans l'énumération
-`BlocType` — rien à modifier dans la boucle de simulation.
+`BlocType` - rien à modifier dans la boucle de simulation.
 
 Le reste suit les mêmes principes :
 
@@ -115,7 +111,7 @@ Le reste suit les mêmes principes :
   durée de vie est celle de la partie. `Menu` possède ses `Button` de la même
   façon.
 - **Association.** `Menu` garde un `Game*` et un `Map*` pour agir sur eux sans
-  les posséder — une référence arrière, détruite avec le menu mais sans rien
+  les posséder - une référence arrière, détruite avec le menu mais sans rien
   détruire elle-même.
 - **Agrégation et cycle de vie.** `Map` détient des `Bloc*` et des `Fish*`
   alloués dynamiquement, et c'est elle qui les libère : dans `removeBloc`,
@@ -141,7 +137,7 @@ seule traite : un grain qui tombe libère une case déjà traitée, jamais une c
 qui reste à traiter dans le même tour.
 
 Un tour se fait en trois temps. D'abord tous les blocs sauf l'eau, ensuite
-l'eau — elle a besoin de voir les solides déjà posés —, enfin les entités. Le
+l'eau - elle a besoin de voir les solides déjà posés -, enfin les entités. Le
 second passage compte au passage les blocs d'eau, ce qui fixe la population de
 poissons que la carte peut nourrir : un pour 250 blocs, avec une probabilité
 d'apparition très faible à chaque image pour que le peuplement soit progressif.
@@ -156,7 +152,7 @@ d'apparition très faible à chaque image pour que le peuplement soit progressif
 | `Mushroom` | se propage après un délai, et s'accroche à la pierre une fois pour toutes (`hooked_`) |
 
 `Fish` n'est pas un `Bloc` : c'est une **entité**, qui vit sur la grille sans
-l'occuper. Elle a sa propre logique — direction et délai de nage, âge,
+l'occuper. Elle a sa propre logique - direction et délai de nage, âge,
 reproduction après une pause d'approche du partenaire, suffocation hors de
 l'eau avec un clignotement d'alerte, puis mort et retrait de la liste.
 
@@ -185,6 +181,4 @@ l'exécutable, le menu les charge par chemin relatif.
 
 ## Auteurs
 
-Projet à deux, en C++ et SFML. Les en-têtes portent l'auteur de chaque classe :
-`Bloc`, `Sand`, `Stone` et `Mushroom` par Antoine Horion, `Map`, `Game`,
-`Water` et `Fish` par Benjamin Escuder, `Menu` et `Button` à quatre mains.
+Projet à deux, Antoine Horion et Benjamin Escuder.
